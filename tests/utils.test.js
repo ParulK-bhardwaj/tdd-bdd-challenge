@@ -33,6 +33,14 @@ it("should return the area of rectangle", function() {
   expect(testArea).to.equal(6)
 })
 
+//  Stretch Challenge
+it("should return area as null if there is negative widths or height", function() {
+  const width = -2
+  const height = 3
+  const testArea = utils.area(width, height)
+  expect(testArea).to.be.null
+})
+
 it("should return the perimeter of a rectangle", function() {
   const width = 2
   const height = 3
@@ -41,13 +49,27 @@ it("should return the perimeter of a rectangle", function() {
   expect(testPerimeter ).to.equal(10)
 })
 
+//  Stretch Challenge
+it("should return the perimeter as null if there is negative widths or height", function() {
+  const width = -2
+  const height = 3
+  const testPerimeter = utils.perimeter(width, height)
+  expect(testPerimeter).to.be.null
+})
+
 it("should return the area of a circle with radius", function() {
   const radius = 2
   const testArea = utils.circleArea(radius)
   expect(testArea).to.be.a("number")
-  expect(testArea).to.equal(12.56)
+  expect(testArea).to.equal(Math.PI * 2 * 2)
 })
 
+//  Stretch Challenge
+it("should return the area of a circle as null if the radius is negative", function() {
+  const radius = -2
+  const testArea = utils.circleArea(radius)
+  expect(testArea).to.be.null
+})
 
 // ========================================================
 // Level 2 Challenges
@@ -109,23 +131,73 @@ it("Should remove items from cart", function() {
   cart = []
   const apple = utils.createItem("Apple", 0.99)
   const cheese = utils.createItem("Cheese", 6.99)
+
   cart = utils.addItemToCart(cart, apple)
   cart = utils.addItemToCart(cart, apple)
+  expect(cart[0]).to.have.property("quantity", 2)
+
   cart = utils.addItemToCart(cart, cheese)
-  cart = utils.removeItemFromCart(cart, apple)
+
   expect(cart).to.be.a("array")
   expect(cart[0]).to.have.property("name", "Apple")
+
+  cart = utils.removeItemFromCart(cart, apple)
   expect(cart[0]).to.have.property("quantity", 1)
   expect(cart[1]).to.have.property("quantity", 1)
-  expect(testCart.length).to.eql(1)
+  expect(cart.length).to.eql(2)
+
+  cart = utils.removeItemFromCart(cart, apple)
+  expect(cart.length).to.eql(1)
 })
 
 // ========================================================
 // Stretch Challenges
 // ========================================================
 
-it("Should update the count of items in the cart")
+it("Should update the count of items in the cart", function() {
+  cart = []
+  const apple = utils.createItem("Apple", 0.99)
+  
+  cart = utils.addItemToCart(cart, apple)
+  expect(cart.length).to.eql(1)
+  cart = utils.addItemToCart(cart, apple)
+  expect(cart.length).to.eql(1)
+  expect(utils.getNumItemsInCart(cart)).to.equal(2);
 
-it("Should validate that an empty cart has 0 items")
+  const cheese = utils.createItem("Cheese", 6.99)
 
-it("Should return the total cost of all items in the cart")
+  cart = utils.addItemToCart(cart, cheese)
+  cart = utils.removeItemFromCart(cart, apple)
+  expect(cart).to.be.a("array")
+  expect(cart[0]).to.have.property("name", "Apple")
+  expect(cart[0]).to.have.property("quantity", 1)
+  expect(cart[1]).to.have.property("quantity", 1)
+
+  cart = utils.addItemToCart(cart, cheese)
+  expect(cart.length).to.eql(2)
+  expect(cart[1]).to.have.property("quantity", 2)
+  expect(utils.getNumItemsInCart(cart)).to.equal(3);
+})
+
+it("Should validate that an empty cart has 0 items", function() {
+  const cart = []
+  const cartItemCount = utils.getNumItemsInCart(cart)
+  expect(cartItemCount).to.eql(0)
+})
+
+it("Should return the total cost of all items in the cart", function() {
+  cart = []
+  const apple = utils.createItem("Apple", 0.99)
+  const cheese = utils.createItem("Cheese", 6.99)
+
+  cart = utils.addItemToCart(cart, apple)
+  cart = utils.addItemToCart(cart, apple)
+  cart = utils.addItemToCart(cart, cheese)
+
+  total = utils.totalCartCost(cart)
+  expect(total).to.eql(8.97)
+
+  cart = utils.addItemToCart(cart, cheese)
+  total = utils.totalCartCost(cart)
+  expect(total).to.eql(15.96)
+})

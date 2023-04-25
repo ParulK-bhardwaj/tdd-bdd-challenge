@@ -7,17 +7,30 @@ const sayHello = () => {
 }
 
 const area = (w, h) => {
-  return w * h
-}
+  if (w < 0 || h < 0){
+    return null
+  } else {
+    return w * h
+  }
+};
 
 const perimeter = (w, h) => {
   // should return the perimeter
-  return (2 * w) + (2 * h)
+  if (w < 0 || h < 0){
+    return null
+  } else {
+    return (2 * w) + (2 * h)
+  }
 }
 
 const circleArea = r => {
+  if (r < 0){
+    return null
+  } else {
   // should return the area of the circle
-  return 3.14 * r * r
+    const pi = Math.PI
+    return pi * r * r
+  }
 }
 
 // ========================================================
@@ -75,8 +88,16 @@ const removeItemFromCart = (cart, item) => {
   return cart;
 };
 
+const totalCartCost = (cart) => {
+  total = 0
+  cart.forEach(item => {
+    total += (item.quantity * item.price)
+  })
+  return total;
+}
+
 module.exports = {
   sayHello, area, perimeter, circleArea,
   clearCart, createItem, getShoppingCart, addItemToCart,
-  getNumItemsInCart, removeItemFromCart
+  getNumItemsInCart, removeItemFromCart, totalCartCost
 }
